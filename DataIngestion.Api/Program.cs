@@ -1,5 +1,11 @@
 using DataIngestion.Api.Middleware;
+using DataIngestion.Application.Abstractions;
+using DataIngestion.Application.Services;
+using DataIngestion.Application.Validators;
 using DataIngestion.Infrastructure.Persistence;
+using DataIngestion.Infrastructure.Repositories;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -21,6 +27,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllers();
 
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<IngestTransactionRequestValidator>();
+
+builder.Services.AddScoped<IDeduplicationKeyGenerator, DeduplicationKeyGenerator>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ITransactionIngestionService, TransactionIngestionService>();
+
 var app = builder.Build();
 
 await ApplyMigrationsAsync(app);
@@ -30,6 +47,8 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.MapControllers();

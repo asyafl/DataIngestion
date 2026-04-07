@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataIngestion.Application\DataIngestion.Application.csproj" />
     <ProjectReference Include="..\DataIngestion.Domain\DataIngestion.Domain.csproj" />
   </ItemGroup>
 

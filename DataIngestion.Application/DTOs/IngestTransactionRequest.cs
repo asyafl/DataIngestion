@@ -1,0 +1,11 @@
+﻿namespace DataIngestion.Application.DTOs
+{
+    public class IngestTransactionRequest
+    {
+        public string CustomerId { get; set; } = default!;
+        public DateTime TransactionDateUtc { get; set; }
+        public decimal Amount { get; set; }
+        public string Currency { get; set; } = default!;
+        public string SourceChannel { get; set; } = default!;
+    }
+}
