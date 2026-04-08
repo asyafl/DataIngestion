@@ -5,6 +5,7 @@
   </Folder>
   <Project Path="DataIngestion.Api/DataIngestion.Api.csproj" />
   <Project Path="DataIngestion.Application/DataIngestion.Application.csproj" Id="27f6b5fa-c950-46d6-93da-a031e5ec9024" />
+  <Project Path="DataIngestion.Application.Tests/DataIngestion.Application.Tests.csproj" Id="f76b6b11-5f20-4f52-9c7f-64c2ca1c7ad9" />
   <Project Path="DataIngestion.Domain/DataIngestion.Domain.csproj" Id="41de74b6-69a7-4144-8ac9-c64ccb320394" />
   <Project Path="DataIngestion.Infrastructure/DataIngestion.Infrastructure.csproj" Id="8149c014-d3a5-4e46-97be-2799bcff3370" />
 </Solution>
