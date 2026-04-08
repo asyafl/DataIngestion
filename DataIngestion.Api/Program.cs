@@ -40,6 +40,7 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionIngestionService, TransactionIngestionService>();
 builder.Services.AddScoped<IBatchIngestionService, BatchIngestionService>();
 builder.Services.AddScoped<IValidator<IngestBatchRowDto>, IngestBatchRowDtoValidator>();
+builder.Services.AddScoped<ICustomerTransactionQueryService, CustomerTransactionQueryService>();
 
 var app = builder.Build();
 
