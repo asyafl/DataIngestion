@@ -9,11 +9,13 @@ namespace DataIngestion.Api.Controllers
     [Route("api/ingest")]
     public class IngestionController : Controller
     {
-        private readonly ITransactionIngestionService _service;
+        private readonly ITransactionIngestionService _transactionService;
+        private readonly IBatchIngestionService _batchService;
 
-        public IngestionController(ITransactionIngestionService service)
+        public IngestionController(ITransactionIngestionService transactionService, IBatchIngestionService batchService)
         {
-            _service = service;
+            _transactionService = transactionService;
+            _batchService = batchService;
         }
 
         [HttpPost("transaction")]
@@ -22,7 +24,16 @@ namespace DataIngestion.Api.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<IngestTransactionResponse>> IngestTransaction([FromBody] IngestTransactionRequest request, CancellationToken cancellationToken)
         {
-            return await _service.IngestAsync(request, cancellationToken);
+            return await _transactionService.IngestAsync(request, cancellationToken);
         }
+
+        [HttpPost("batch")]
+        [ProducesResponseType(typeof(IngestBatchResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IngestBatchResponse>> IngestBatchTransactions(IFormFile file, CancellationToken cancellationToken)
+        {
+            return await _batchService.IngestBatchAsync(file, cancellationToken);
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 using DataIngestion.Api.Middleware;
 using DataIngestion.Application.Abstractions;
+using DataIngestion.Application.DTOs;
 using DataIngestion.Application.Services;
 using DataIngestion.Application.Validators;
 using DataIngestion.Infrastructure.Persistence;
@@ -37,6 +38,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<IngestTransactionRequestVal
 builder.Services.AddScoped<IDeduplicationKeyGenerator, DeduplicationKeyGenerator>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionIngestionService, TransactionIngestionService>();
+builder.Services.AddScoped<IBatchIngestionService, BatchIngestionService>();
+builder.Services.AddScoped<IValidator<IngestBatchRowDto>, IngestBatchRowDtoValidator>();
 
 var app = builder.Build();
 
