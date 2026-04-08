@@ -41,6 +41,7 @@ builder.Services.AddScoped<ITransactionIngestionService, TransactionIngestionSer
 builder.Services.AddScoped<IBatchIngestionService, BatchIngestionService>();
 builder.Services.AddScoped<IValidator<IngestBatchRowDto>, IngestBatchRowDtoValidator>();
 builder.Services.AddScoped<ICustomerTransactionQueryService, CustomerTransactionQueryService>();
+builder.Services.AddScoped<IStatsQueryService, StatsQueryService>();
 
 var app = builder.Build();
 

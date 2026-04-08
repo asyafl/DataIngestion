@@ -11,5 +11,7 @@ namespace DataIngestion.Application.Abstractions
 
         Task<PagedResult<CustomerTransactionItemResponse>> GetByCustomerAsync(string customerId, GetCustomerTransactionsRequest query,
             CancellationToken cancellationToken = default);
+
+        Task<GetSummaryStatsResponse> GetSummaryStatsAsync(CancellationToken cancellationToken = default);
     }
 }

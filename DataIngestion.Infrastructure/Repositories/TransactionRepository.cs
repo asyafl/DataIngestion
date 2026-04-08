@@ -96,5 +96,40 @@ namespace DataIngestion.Infrastructure.Repositories
                 _ => dateTime
             };
         }
+
+        public async Task<GetSummaryStatsResponse> GetSummaryStatsAsync(CancellationToken cancellationToken = default)
+        {
+            var totalTransactions = await _appDbContext.Transactions.CountAsync(cancellationToken);
+            var totalAmount = await _appDbContext.Transactions.SumAsync(x => x.Amount, cancellationToken);
+            var uniqueCustomers = await _appDbContext.Transactions.Select(x => x.CustomerId).Distinct().CountAsync(cancellationToken);
+
+            var byCurrency = await _appDbContext.Transactions
+                .GroupBy(x => x.Currency)
+                .Select(g => new StatsByCurrencyResponse
+                {
+                    Currency = g.Key,
+                    TotalAmount = g.Sum(x => x.Amount),
+                    Count = g.Count()
+                })
+                .ToListAsync(cancellationToken);
+
+            var bySourceChannel = await _appDbContext.Transactions
+                .GroupBy(x => x.SourceChannel)
+                .Select(g => new StatsBySourceChannelResponse
+                {
+                    SourceChannel = g.Key,
+                    Count = g.Count()
+                })
+                .ToListAsync(cancellationToken);
+
+            return new GetSummaryStatsResponse
+            {
+                TotalTransactions = totalTransactions,
+                TotalAmount = totalAmount,
+                UniqueCustomers = uniqueCustomers,
+                ByCurrency = byCurrency,
+                BySourceChannel = bySourceChannel
+            };
+        }
     }
 }
