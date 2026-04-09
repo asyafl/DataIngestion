@@ -26,7 +26,9 @@ namespace DataIngestion.Infrastructure.Repositories
 
         public async Task<PagedResult<CustomerTransactionItemResponse>> GetByCustomerAsync(string customerId, GetCustomerTransactionsRequest query, CancellationToken cancellationToken = default)
         {
-            var transactionQuery = _appDbContext.Transactions.Where(x => x.CustomerId == customerId);
+            var transactionQuery = _appDbContext.Transactions
+                .AsNoTracking()
+                .Where(x => x.CustomerId == customerId);
 
             if (query.FromDate.HasValue)
             {
@@ -99,11 +101,13 @@ namespace DataIngestion.Infrastructure.Repositories
 
         public async Task<GetSummaryStatsResponse> GetSummaryStatsAsync(CancellationToken cancellationToken = default)
         {
-            var totalTransactions = await _appDbContext.Transactions.CountAsync(cancellationToken);
-            var totalAmount = await _appDbContext.Transactions.SumAsync(x => x.Amount, cancellationToken);
-            var uniqueCustomers = await _appDbContext.Transactions.Select(x => x.CustomerId).Distinct().CountAsync(cancellationToken);
+            var transactionsQuery = _appDbContext.Transactions.AsNoTracking();
 
-            var byCurrency = await _appDbContext.Transactions
+            var totalTransactions = await transactionsQuery.CountAsync(cancellationToken);
+            var totalAmount = await transactionsQuery.SumAsync(x => x.Amount, cancellationToken);
+            var uniqueCustomers = await transactionsQuery.Select(x => x.CustomerId).Distinct().CountAsync(cancellationToken);
+
+            var byCurrency = await transactionsQuery
                 .GroupBy(x => x.Currency)
                 .Select(g => new StatsByCurrencyResponse
                 {
@@ -113,7 +117,7 @@ namespace DataIngestion.Infrastructure.Repositories
                 })
                 .ToListAsync(cancellationToken);
 
-            var bySourceChannel = await _appDbContext.Transactions
+            var bySourceChannel = await transactionsQuery
                 .GroupBy(x => x.SourceChannel)
                 .Select(g => new StatsBySourceChannelResponse
                 {

@@ -24,7 +24,8 @@ namespace DataIngestion.Api.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<IngestTransactionResponse>> IngestTransaction([FromBody] IngestTransactionRequest request, CancellationToken cancellationToken)
         {
-            return await _transactionService.IngestAsync(request, cancellationToken);
+            var response = await _transactionService.IngestAsync(request, cancellationToken);
+            return StatusCode(StatusCodes.Status201Created, response);
         }
 
         [HttpPost("batch")]
@@ -32,7 +33,8 @@ namespace DataIngestion.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IngestBatchResponse>> IngestBatchTransactions(IFormFile file, CancellationToken cancellationToken)
         {
-            return await _batchService.IngestBatchAsync(file, cancellationToken);
+            var response = await _batchService.IngestBatchAsync(file, cancellationToken);
+            return StatusCode(StatusCodes.Status201Created, response);
         }
 
     }

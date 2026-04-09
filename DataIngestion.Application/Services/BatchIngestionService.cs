@@ -217,7 +217,8 @@ namespace DataIngestion.Application.Services
                 Amount = dto.Amount,
                 Currency = dto.Currency,
                 SourceChannel = dto.SourceChannel,
-                DeduplicationKey = deduplicationKey
+                DeduplicationKey = deduplicationKey,
+                CreatedAtUtc = DateTime.UtcNow
             };
 
             await _transactionRepository.AddAsync(transaction, cancellationToken);

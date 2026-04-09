@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataIngestion.Api.Controllers
 {
     [ApiController]
-    [Route("customers")]
+    [Route("api/customers")]
     public class CustomersController : Controller
     {
         private readonly ICustomerTransactionQueryService _customerTransactionQueryService;

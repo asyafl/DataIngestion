@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataIngestion.Api.Controllers
 {
     [ApiController]
-    [Route("statistics")]
+    [Route("api/statistics")]
     public class StatsController : Controller
     {
         private readonly IStatsQueryService _statsQueryService;
