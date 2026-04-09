@@ -1,0 +1,6 @@
+CustomerId,TransactionDateUtc,Amount,Currency,SourceChannel
+cust-001,2026-04-07T10:00:00Z,100.50,USD,mobile-app
+cust-002,2026-04-07T11:00:00Z,50.00,EUR,web
+cust-001,2026-04-07T10:00:00Z,100.50,USD,mobile-app
+cust-003,2030-01-01T00:00:00Z,12.00,USD,mobile-app
+cust-004,2026-04-07T11:30:00Z,-10.00,USD,web
